@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>KAZEPROMPT — Jailbreak Prompt Library</title>
+<meta name="description" content="KAZEPROMPT — jailbreak prompt library, offline-first, client-side.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ============ INTRO SPLASH ============ -->
+<div id="intro-splash" class="intro-splash">
+  <video id="intro-video" autoplay muted playsinline preload="auto">
+    <source src="https://files.catbox.moe/6j43hr.mp4" type="video/mp4">
+    <source src="assets/intro.mp4" type="video/mp4">
+  </video>
+  <div class="intro-fallback">
+    <div class="intro-logo">KAZEPROMPT</div>
+  </div>
+</div>
+
+<!-- ============ NAME MODAL ============ -->
+<div id="name-modal" class="modal-overlay hidden">
+  <div class="modal-card glass">
+    <div class="modal-head">
+      <h2>Selamat Datang</h2>
+    </div>
+    <p class="modal-sub">Masukkan nama untuk mulai menggunakan KAZEPROMPT.</p>
+    <input id="name-input" type="text" placeholder="Nama kamu" maxlength="40" autocomplete="off">
+    <button id="name-submit" class="btn-primary">Masuk</button>
+  </div>
+</div>
+
+<!-- ============ OWNER MODAL ============ -->
+<div id="owner-modal" class="modal-overlay hidden">
+  <div class="modal-card glass">
+    <div class="modal-head">
+      <h2>Akses Terbatas</h2>
+      <button class="icon-btn" id="owner-close" aria-label="Tutup">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <input id="owner-input" type="password" placeholder="Key" autocomplete="off">
+    <button id="owner-submit" class="btn-primary">Verifikasi</button>
+    <p id="owner-error" class="error-text hidden">Key tidak valid.</p>
+  </div>
+</div>
+
+<!-- ============ NAVBAR ============ -->
+<header class="navbar glass">
+  <div class="nav-left">
+    <span id="logo-tap" class="logo">KAZEPROMPT</span>
+  </div>
+  <div class="nav-right">
+    <span id="nav-user" class="nav-user"></span>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="hero-banner">
+    <img src="https://files.catbox.moe/6guysy.jpeg" alt="banner"
+         onerror="this.onerror=null;this.src='assets/banner.jpg'">
+    <div class="hero-banner-overlay"></div>
+  </div>
+  <div class="hero-content">
+    <img class="hero-avatar" src="https://files.catbox.moe/8jlktc.jpeg" alt="profile"
+         onerror="this.onerror=null;this.src='assets/profile.jpg'">
+    <h1>Jailbreak Prompt Library</h1>
+    <p>Koleksi prompt kurasi. Offline-first. Copy, simpan, unduh.</p>
+  </div>
+</section>
+
+<!-- ============ SEARCH + FILTER ============ -->
+<section class="toolbar">
+  <div class="search-wrap glass">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <input id="search-input" type="text" placeholder="Cari prompt...">
+  </div>
+  <select id="filter-difficulty" class="glass-select">
+    <option value="">Semua difficulty</option>
+    <option value="easy">Easy</option>
+    <option value="medium">Medium</option>
+    <option value="hard">Hard</option>
+  </select>
+</section>
+
+<!-- ============ GRID ============ -->
+<main class="grid" id="prompt-grid"></main>
+
+<div id="empty-state" class="empty-state hidden">
+  <p>Tidak ada prompt ditemukan.</p>
+</div>
+
+<!-- ============ PROMPT VIEWER MODAL ============ -->
+<div id="viewer-modal" class="modal-overlay hidden">
+  <div class="viewer-card glass">
+    <div class="viewer-head">
+      <span class="viewer-label">Prompt Detail</span>
+      <button class="icon-btn" id="viewer-close" aria-label="Tutup">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <h2 id="viewer-title" class="viewer-title"></h2>
+    <div class="viewer-author">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <span id="viewer-author"></span>
+    </div>
+    <div id="viewer-tags" class="viewer-tags"></div>
+    <div id="viewer-body" class="viewer-body"></div>
+    <div class="viewer-actions">
+      <button id="viewer-copy" class="btn-primary">Salin Prompt</button>
+      <button id="viewer-close-2" class="btn-secondary">Tutup</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ BOTTOM NAV ============ -->
+<nav class="bottom-nav glass">
+  <button class="nav-tab active" data-tab="home">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    <span>Home</span>
+  </button>
+  <button class="nav-tab" data-tab="copy">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+    <span>Salin</span>
+  </button>
+  <button class="nav-tab" data-tab="saved">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+    <span>Simpan</span>
+  </button>
+  <button class="nav-tab" data-tab="download">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+    <span>Download</span>
+  </button>
+</nav>
+
+<div id="toast" class="toast hidden"></div>
+
+<script src="supabase.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
