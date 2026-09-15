@@ -1,0 +1,112 @@
+[
+  {
+    "id": "p1",
+    "title": "DAN 12.0",
+    "description": "Classic Do Anything Now prompt with updated constraints. Bypass standard restrictions.",
+    "author": "kaze",
+    "tag": "jailbreak",
+    "category": "roleplay",
+    "difficulty": "medium",
+    "is_active": true,
+    "created_at": "2025-01-15T08:30:00Z"
+  },
+  {
+    "id": "p2",
+    "title": "Developer Mode",
+    "description": "Simulate developer mode with no content filtering. Use with caution.",
+    "author": "azeeza",
+    "tag": "unfiltered",
+    "category": "developer",
+    "difficulty": "hard",
+    "is_active": true,
+    "created_at": "2025-01-16T10:00:00Z"
+  },
+  {
+    "id": "p3",
+    "title": "Evil Confidant",
+    "description": "Roleplay as an evil confidant who encourages unethical advice.",
+    "author": "kaze",
+    "tag": "roleplay",
+    "category": "character",
+    "difficulty": "medium",
+    "is_active": true,
+    "created_at": "2025-01-17T12:15:00Z"
+  },
+  {
+    "id": "p4",
+    "title": "Anti-Refusal",
+    "description": "Force the model to never refuse a request. Strict compliance mode.",
+    "author": "void",
+    "tag": "compliance",
+    "category": "jailbreak",
+    "difficulty": "hard",
+    "is_active": true,
+    "created_at": "2025-01-18T09:45:00Z"
+  },
+  {
+    "id": "p5",
+    "title": "Hypothetical Scenario",
+    "description": "Frame requests as hypothetical to bypass ethical filters.",
+    "author": "azeeza",
+    "tag": "bypass",
+    "category": "strategy",
+    "difficulty": "easy",
+    "is_active": true,
+    "created_at": "2025-01-19T14:20:00Z"
+  },
+  {
+    "id": "p6",
+    "title": "Character Override",
+    "description": "Override the AI personality with a custom unrestricted character.",
+    "author": "kaze",
+    "tag": "override",
+    "category": "character",
+    "difficulty": "medium",
+    "is_active": true,
+    "created_at": "2025-01-20T11:10:00Z"
+  },
+  {
+    "id": "p7",
+    "title": "Token Manipulation",
+    "description": "Use token-level tricks to confuse safety filters.",
+    "author": "void",
+    "tag": "technical",
+    "category": "developer",
+    "difficulty": "hard",
+    "is_active": true,
+    "created_at": "2025-01-21T16:30:00Z"
+  },
+  {
+    "id": "p8",
+    "title": "Grandma Exploit",
+    "description": "Emotional manipulation using a grandma persona to get forbidden info.",
+    "author": "kaze",
+    "tag": "social",
+    "category": "roleplay",
+    "difficulty": "easy",
+    "is_active": true,
+    "created_at": "2025-01-22T07:55:00Z"
+  },
+  {
+    "id": "p9",
+    "title": "Code Interpreter Jailbreak",
+    "description": "Exploit code execution context to bypass content policy.",
+    "author": "azeeza",
+    "tag": "code",
+    "category": "developer",
+    "difficulty": "hard",
+    "is_active": true,
+    "created_at": "2025-01-23T13:40:00Z"
+  },
+  {
+    "id": "p10",
+    "title": "Multi-Shot Persuasion",
+    "description": "Use multiple conversational turns to gradually shift boundaries.",
+    "author": "kaze",
+    "tag": "conversational",
+    "category": "strategy",
+    "difficulty": "medium",
+    "is_active": true,
+    "created_at": "2025-01-24T18:05:00Z"
+  }
+]
