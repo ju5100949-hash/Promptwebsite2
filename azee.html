@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>KAZEPROMPT — Owner Panel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  body{padding-bottom:110px}
+  .owner-header{padding:18px 16px 8px}
+  .owner-header h1{font-size:20px;font-weight:800;letter-spacing:-.02em}
+  .owner-header p{font-size:12px;color:var(--text-mute);margin-top:4px}
+  .panel{padding:0 14px}
+  .panel-section{display:none}
+  .panel-section.active{display:block}
+  .table-wrap{overflow-x:auto;border-radius:18px;border:var(--border);background:var(--glass);backdrop-filter:blur(16px)}
+  table{width:100%;border-collapse:collapse;font-size:12.5px;min-width:640px}
+  th,td{text-align:left;padding:10px 12px;border-bottom:1px solid rgba(255,255,255,.05);white-space:nowrap}
+  th{font-size:10.5px;text-transform:uppercase;letter-spacing:.12em;color:var(--text-mute);font-weight:600}
+  td.desc{max-width:260px;white-space:normal;color:var(--text-dim)}
+  .row-actions{display:flex;gap:6px}
+  .row-actions button{padding:5px 10px;border-radius:10px;font-size:11px;font-weight:600;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08)}
+  .row-actions button.danger{color:var(--hard);border-color:rgba(255,107,107,.3)}
+  .form-card{background:var(--glass);border:var(--border);border-radius:20px;padding:20px;backdrop-filter:blur(16px);display:flex;flex-direction:column;gap:14px}
+  .field label{display:block;font-size:11.5px;font-weight:600;color:var(--text-mute);margin-bottom:6px;letter-spacing:.04em}
+  .field input,.field textarea,.field select{
+    width:100%;padding:11px 14px;border-radius:13px;
+    background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);
+    color:var(--text);font-size:13.5px;outline:none;font-family:inherit;
+  }
+  .field textarea{min-height:110px;resize:vertical}
+  .field input:focus,.field textarea:focus,.field select:focus{border-color:rgba(124,140,255,.5)}
+  .stat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+  @media(min-width:700px){.stat-grid{grid-template-columns:repeat(4,1fr)}}
+  .stat-card{background:var(--glass);border:var(--border);border-radius:18px;padding:18px;backdrop-filter:blur(16px)}
+  .stat-card .num{font-size:26px;font-weight:800;letter-spacing:-.03em}
+  .stat-card .lbl{font-size:11px;color:var(--text-mute);margin-top:4px;text-transform:uppercase;letter-spacing:.1em}
+  .activity-list{margin-top:16px;display:flex;flex-direction:column;gap:8px}
+  .activity-item{background:var(--glass);border:var(--border);border-radius:14px;padding:12px 14px;font-size:12.5px;display:flex;justify-content:space-between;gap:10px}
+  .activity-item .meta{color:var(--text-mute);font-size:11px}
+  .export-btns{display:flex;flex-direction:column;gap:12px;max-width:360px}
+  .nav-tabs{display:flex;gap:6px;padding:0 14px 16px;overflow-x:auto}
+  .nav-tabs button{padding:9px 16px;border-radius:14px;font-size:12.5px;font-weight:600;color:var(--text-mute);background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.05);white-space:nowrap}
+  .nav-tabs button.active{color:#fff;background:rgba(124,140,255,.18);border-color:rgba(124,140,255,.35)}
+  .back-link{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;color:var(--text-dim);margin:0 14px 10px}
+</style>
+</head>
+<body>
+
+<header class="navbar glass">
+  <div class="nav-left"><span class="logo">KAZEPROMPT</span></div>
+  <div class="nav-right"><span class="nav-user">Owner Panel</span></div>
+</header>
+
+<a class="back-link" href="index.html">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+  Kembali ke library
+</a>
+
+<div class="owner-header">
+  <h1>Owner Panel</h1>
+  <p>Kelola prompt, statistik, dan ekspor data.</p>
+</div>
+
+<div class="nav-tabs">
+  <button class="active" data-panel="kelola">Kelola</button>
+  <button data-panel="tambah">Tambah</button>
+  <button data-panel="statistik">Statistik</button>
+  <button data-panel="ekspor">Ekspor</button>
+</div>
+
+<div class="panel">
+
+  <!-- KELOLA -->
+  <section class="panel-section active" id="panel-kelola">
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th><th>Title</th><th>Author</th><th>Tag</th><th>Category</th>
+            <th>Difficulty</th><th>Active</th><th>Aksi</th>
+          </tr>
+        </thead>
+        <tbody id="manage-tbody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- TAMBAH -->
+  <section class="panel-section" id="panel-tambah">
+    <form class="form-card" id="prompt-form">
+      <input type="hidden" id="f-id">
+      <div class="field"><label>Title</label><input id="f-title" required maxlength="120"></div>
+      <div class="field"><label>Description</label><textarea id="f-desc" required></textarea></div>
+      <div class="field"><label>Author</label><input id="f-author" required maxlength="60"></div>
+      <div class="field"><label>Tag</label><input id="f-tag" maxlength="40"></div>
+      <div class="field"><label>Category</label><input id="f-category" maxlength="40"></div>
+      <div class="field"><label>Difficulty</label>
+        <select id="f-difficulty">
+          <option value="easy">easy</option>
+          <option value="medium" selected>medium</option>
+          <option value="hard">hard</option>
+        </select>
+      </div>
+      <div class="field"><label>Active</label>
+        <select id="f-active">
+          <option value="true" selected>true</option>
+          <option value="false">false</option>
+        </select>
+      </div>
+      <button type="submit" class="btn-primary" id="form-submit">Tambah Prompt</button>
+      <button type="button" class="btn-secondary hidden" id="form-cancel">Batal Edit</button>
+    </form>
+  </section>
+
+  <!-- STATISTIK -->
+  <section class="panel-section" id="panel-statistik">
+    <div class="stat-grid">
+      <div class="stat-card"><div class="num" id="st-total">0</div><div class="lbl">Total Prompt</div></div>
+      <div class="stat-card"><div class="num" id="st-active">0</div><div class="lbl">Aktif</div></div>
+      <div class="stat-card"><div class="num" id="st-users">0</div><div class="lbl">User</div></div>
+      <div class="stat-card"><div class="num" id="st-saved">0</div><div class="lbl">Saved</div></div>
+    </div>
+    <h3 style="margin:22px 0 8px;font-size:14px;font-weight:700">10 Aktivitas Terbaru</h3>
+    <div class="activity-list" id="activity-list"></div>
+  </section>
+
+  <!-- EKSPOR -->
+  <section class="panel-section" id="panel-ekspor">
+    <div class="export-btns">
+      <button class="btn-primary" id="export-json">Ekspor prompts.json</button>
+      <button class="btn-secondary" id="export-csv">Ekspor prompts.csv</button>
+    </div>
+  </section>
+
+</div>
+
+<div id="toast" class="toast hidden"></div>
+
+<script src="supabase.js"></script>
+<script src="azee.js"></script>
+</body>
+</html>
